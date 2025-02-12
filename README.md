@@ -6,4 +6,4 @@ Adds a command to vsCode to open a chat dialog with DeepSeek r1 running locally 
 
 Ollama - https://ollama.com
 
-![Screenshot](/assetts/why.png "Screenshot of Extension")
+![Screenshot](/src/assets/why.png "Screenshot of Extension")
