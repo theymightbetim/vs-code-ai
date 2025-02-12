@@ -61,13 +61,12 @@ function getWebviewContent(): string {
 				font-family: 'TERMINAL','ANSI', monospace;
 				margin: 1rem;
 				color: #00ff88;
-				background-color: #000000;
+				background-color:hsl(0, 0.00%, 0.00%);
 			}
 			#prompt { 
 				width: 100%; 
 				box-sizing: border-box;
 				font-family: Arial, sans-serif;
-				background-color: #1a1a1a;
 			}
 
 			.prompt-textarea {
@@ -79,16 +78,7 @@ function getWebviewContent(): string {
 			border-radius: 5px;
 			padding: 15px;
 			}
-
-			.prompt-textarea:focus {
-			outline: none;
-			box-shadow: 0 0 5px rgb(0, 255, 255);
-			}
-
-			/* Optional: Add a slight shadow effect */
-			.prompt-textarea {
-			box-shadow: 0 2px 4px rgba(0, 255, 255, 0.3);
-			}
+			
 			#response { 
 				border: 1px solid #ccc;
 				margin-top: 1rem;
