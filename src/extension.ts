@@ -69,8 +69,7 @@ function getWebviewContent(): string {
 				font-family: Arial, sans-serif;
 			}
 
-			.prompt-textarea {
-			width: 400px;
+			#prompt-textarea {
 			height: 150px;
 			background-color: #1a1a1a;
 			color: rgba(0, 255, 55, 0.93);
@@ -78,7 +77,7 @@ function getWebviewContent(): string {
 			border-radius: 5px;
 			padding: 15px;
 			}
-			
+
 			#response { 
 				border: 1px solid #ccc;
 				margin-top: 1rem;
