@@ -58,18 +58,63 @@ function getWebviewContent(): string {
 		<meta charset="UTF-8" />
 		<style>
 			body { 
-				font-family: 
-				sans-serif; margin: 1rem; 
+				font-family: 'TERMINAL','ANSI', monospace;
+				margin: 1rem;
+				color: #00ff88;
+				background-color: #000000;
 			}
 			#prompt { 
 				width: 100%; 
-				box-sizing: border-box 
+				box-sizing: border-box;
+				font-family: Arial, sans-serif;
+				background-color: #1a1a1a;
+			}
+
+			.prompt-textarea {
+			width: 400px;
+			height: 150px;
+			background-color: #1a1a1a;
+			color: rgba(0, 255, 55, 0.93);
+			border: 2px solid #000;
+			border-radius: 5px;
+			padding: 15px;
+			}
+
+			.prompt-textarea:focus {
+			outline: none;
+			box-shadow: 0 0 5px rgb(0, 255, 255);
+			}
+
+			/* Optional: Add a slight shadow effect */
+			.prompt-textarea {
+			box-shadow: 0 2px 4px rgba(0, 255, 255, 0.3);
 			}
 			#response { 
 				border: 1px solid #ccc;
 				margin-top: 1rem;
 				padding: 0.5rem;
 				min-height: 80%;
+			}
+			#askBtn {
+			background-color: #2c3e50;
+			color: #000000
+			padding: 15px 30px;
+			border-radius: 15px;
+			transition: all 0.3s ease;
+			cursor: pointer;
+			position: relative;
+			}
+			#askBtn:hover {
+			transform: scale(1.05);
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+			}
+			#askBtn.active {
+			transform: scale(1.02);
+			}
+			#askBtn.disabled {
+			opacity: 0.7;
+			cursor: not-allowed;
+			transition: all 0.3s ease;
 			}
 		</style>
 	</head>
