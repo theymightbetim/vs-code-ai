@@ -67,15 +67,12 @@ function getWebviewContent(): string {
 				width: 100%; 
 				box-sizing: border-box;
 				font-family: Arial, sans-serif;
-			}
-
-			#prompt-textarea {
-			height: 150px;
-			background-color: #1a1a1a;
-			color: rgba(0, 255, 55, 0.93);
-			border: 2px solid #000;
-			border-radius: 5px;
-			padding: 15px;
+				height: 50px;
+				background-color: #1a1a1a;
+				color: rgba(0, 255, 55, 0.93);
+				border: 2px solid #000;
+				border-radius: 5px;
+				padding: 15px;
 			}
 
 			#response { 
