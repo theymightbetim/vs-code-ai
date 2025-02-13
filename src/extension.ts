@@ -22,8 +22,6 @@ export function activate(context: vscode.ExtensionContext) {
 			{enableScripts:true}
 		);
 
-
-
 		panel.webview.html = getWebviewContent();
 		panel.webview.onDidReceiveMessage(async (message:any) => {
 			if (message.command = 'chat') {
@@ -111,9 +109,9 @@ function getWebviewContent(): string {
 		<h2>AI Model Chat VS Code Extension</h2>
 		<textarea id="prompt" rows="3" placeholder="How can I help?"></textarea><br />
 		<select id="model-dropdown" style="width: 200px;">
-        <option value="deepseek-r1:latest">DeepSeek R1</option>
-        <option value="phi4">Microsoft phi4</option>
-        <option value="llama3.1">Llama 3</option>
+			<option value="deepseek-r1:latest">DeepSeek R1</option>
+			<option value="phi4">Microsoft phi4</option>
+			<option value="llama3.1">Llama 3</option>
     	</select>
 	 	<button id="askBtn">Ask</button>
 		<div id="response"></div>
