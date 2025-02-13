@@ -15,7 +15,7 @@
     "commands": [
       {
         "command": "deepseek-code.start",
-        "title": "Deep Seek AI Chat"
+        "title": "AI Chat"
       }
     ]
   },
