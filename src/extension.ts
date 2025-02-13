@@ -7,7 +7,6 @@ import ollama from 'ollama';
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "deepseek-code" is now active!');
@@ -29,10 +28,11 @@ export function activate(context: vscode.ExtensionContext) {
 		panel.webview.onDidReceiveMessage(async (message:any) => {
 			if (message.command = 'chat') {
 				const userPrompt = message.text;
+				const model = message.modelToUse;
 				let responseText = '';
 				try {
 					const streamResponse = await ollama.chat({
-						model: 'deepseek-r1:latest',
+						model: model,
 						messages: [{role: 'user', content: userPrompt}],
 						stream: true
 				});
@@ -108,15 +108,11 @@ function getWebviewContent(): string {
 		</style>
 	</head>
 	<body>
-		<h2>Deep Seek VS Code Extension</h2>
+		<h2>AI Model Chat VS Code Extension</h2>
 		<textarea id="prompt" rows="3" placeholder="How can I help?"></textarea><br />
-		<select id="dropdown" class="form-control" style="width: 200px;">
-        <option value="">Select Option</option>
-
+		<select id="model-dropdown" style="width: 200px;">
         <option value="deepseek-r1:latest">DeepSeek R1</option>
-
         <option value="phi4">Microsoft phi4</option>
-
         <option value="llama3.1">Llama 3</option>
     	</select>
 	 	<button id="askBtn">Ask</button>
@@ -127,9 +123,11 @@ function getWebviewContent(): string {
 
 			const submitResponse = () => {
 				const text = document.getElementById('prompt').value;
+				const modelToUse = document.getElementById('model-dropdown').value
 				vscode.postMessage({
 					command: 'chat', 
-					text 
+					text,
+					modelToUse
 				});
 			}
 
