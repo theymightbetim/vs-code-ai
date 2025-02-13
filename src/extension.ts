@@ -3,6 +3,7 @@
 import * as vscode from 'vscode';
 import ollama from 'ollama';
 
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -21,6 +22,8 @@ export function activate(context: vscode.ExtensionContext) {
 			vscode.ViewColumn.One,
 			{enableScripts:true}
 		);
+
+
 
 		panel.webview.html = getWebviewContent();
 		panel.webview.onDidReceiveMessage(async (message:any) => {
@@ -107,7 +110,16 @@ function getWebviewContent(): string {
 	<body>
 		<h2>Deep Seek VS Code Extension</h2>
 		<textarea id="prompt" rows="3" placeholder="How can I help?"></textarea><br />
-		<button id="askBtn">Ask</button>
+		<select id="dropdown" class="form-control" style="width: 200px;">
+        <option value="">Select Option</option>
+
+        <option value="deepseek-r1:latest">DeepSeek R1</option>
+
+        <option value="phi4">Microsoft phi4</option>
+
+        <option value="llama3.1">Llama 3</option>
+    	</select>
+	 	<button id="askBtn">Ask</button>
 		<div id="response"></div>
 		<script>
 			
