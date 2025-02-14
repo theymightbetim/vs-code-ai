@@ -4,8 +4,12 @@ All notable changes to the "deepseek-code" extension will be documented in this 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
+## 2/13/2025
 
-- Initial release
+#### Added 
+- Support for phi4, llama3 and deepscaler
+- Ability to set default model
+- Configuration to dynamically load models from appConfig.json
 
- - 2/13/2025 - adding support for phi4 and llama3.1
+#### Changed
+- Default model to deepscaler 1.5b model
