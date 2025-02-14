@@ -6,6 +6,18 @@ Adds a command to vsCode to open a chat dialog with DeepSeek r1 running locally 
 
 Ollama - https://ollama.com
 
-it is recommended that you pull the manifest for the model(s) you intend to use by running ollama before using this extension or the first repsonse may take quite a while or throw an error:
+## Notes
 
-```ollama pull deepscaler```
+Reccomended you pull the model you intend to use before running the extension:
+
+```bash
+    ollama pull deepscaler
+```
+
+Any model ollama supports can be added to the models array in appconfig.json:
+```json
+        { 
+            "label": "Llama 3.1", 
+            "value": "llama3.1"
+        }
+```
