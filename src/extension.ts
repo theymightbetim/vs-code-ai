@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import ollama from 'ollama';
+import appConfigJson from '../appconfig.json';
 
 
 // This method is called when your extension is activated
@@ -10,7 +11,9 @@ export function activate(context: vscode.ExtensionContext) {
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "deepseek-code" is now active!');
-
+	const defaultModel = appConfigJson.defaultModel;
+	console.log(defaultModel);
+	
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
@@ -22,7 +25,7 @@ export function activate(context: vscode.ExtensionContext) {
 			{enableScripts:true}
 		);
 
-		panel.webview.html = getWebviewContent();
+		panel.webview.html = getWebviewContent(defaultModel);
 		panel.webview.onDidReceiveMessage(async (message:any) => {
 			if (message.command = 'chat') {
 				const userPrompt = message.text;
@@ -51,7 +54,8 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(disposable);
 }
 
-function getWebviewContent(): string {
+function getWebviewContent(defaultModel: string): string {
+	console.log("using " + defaultModel);
 	return /*html*/`
 	<!DOCTYPE html>
 	<html lang="en">
@@ -109,7 +113,9 @@ function getWebviewContent(): string {
 		<h2>AI Model Chat VS Code Extension</h2>
 		<textarea id="prompt" rows="3" placeholder="How can I help?"></textarea><br />
 		<select id="model-dropdown" style="width: 200px;">
+			<option value="${defaultModel}"> Default(${defaultModel})</option>
 			<option value="deepseek-r1:latest">DeepSeek R1</option>
+			<option value="deepscaler">DeepScaler</option>
 			<option value="phi4">Microsoft phi4</option>
 			<option value="llama3.1">Llama 3</option>
     	</select>
@@ -130,12 +136,14 @@ function getWebviewContent(): string {
 			}
 
 			document.getElementById('askBtn').addEventListener('click', submitResponse);
+
 			window.addEventListener('message', event => {
 				const { command, text } = event.data;
 				if ( command == "chatResponse" ) {
 					document.getElementById('response').innerText = text;
 				};
 			})
+		
 		</script>
 	</body>
 	`;
