@@ -1,23 +1,21 @@
 {
     "defaultModel": "deepscaler",
-    "models": {
-        "deepscaler" : {
-            "label": "DeepScaler",
-            "value": "deepscaler"
+    "models": [
+        {
+            "label": "DeepScaler", 
+            "value": "deepscaler" 
         },
-        "phi4" : {
-            "label": "Microsoft phi4",
-            "value": "phi4"
+        {  
+            "label": "Microsoft phi4", 
+            "value": "phi4" 
+        }   ,
+        { 
+            "label": "DeepSeek R1", 
+            "value": "deepseek-r1" 
         },
-        
-        "deepseek" : {
-            "label": "DeepSeek R1",
-            "value": "deepseek-r1"
-        },
-        
-        "llama" : {
-            "label": "Llama 3.1",
+        { 
+            "label": "Llama 3.1", 
             "value": "llama3.1"
-        },
-    }
+        }
+    ]
 }

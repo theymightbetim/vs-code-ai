@@ -5,14 +5,24 @@ import ollama from 'ollama';
 import appConfigJson from '../appconfig.json';
 
 
+interface Model {
+    label: string;
+    value: string;
+};
+
+type AppConfig = {
+    defaultModel: string;
+    models: Model[];
+};
+
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "deepseek-code" is now active!');
-	const defaultModel = appConfigJson.defaultModel;
-	console.log(defaultModel);
+	const defaultModel: string = appConfigJson.defaultModel;
+	console.log(`default model is set to: ${defaultModel}`);
 	
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
@@ -20,12 +30,12 @@ export function activate(context: vscode.ExtensionContext) {
 	const disposable = vscode.commands.registerCommand('deepseek-code.start', () => {
 		const panel = vscode.window.createWebviewPanel(
 			'deepChat',
-			'Deep Seek AI Chatbot',
+			'AI Chatbot',
 			vscode.ViewColumn.One,
 			{enableScripts:true}
 		);
 
-		panel.webview.html = getWebviewContent(defaultModel);
+		panel.webview.html = getWebviewContent(appConfigJson);
 		panel.webview.onDidReceiveMessage(async (message:any) => {
 			if (message.command = 'chat') {
 				const userPrompt = message.text;
@@ -54,8 +64,10 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(disposable);
 }
 
-function getWebviewContent(defaultModel: string): string {
-	console.log("using " + defaultModel);
+function getWebviewContent(appConfigJson: AppConfig): string {
+	const modelOptions = buildModelOptions(appConfigJson);
+	const defaultModel = appConfigJson.defaultModel;
+	console.log(modelOptions);
 	return /*html*/`
 	<!DOCTYPE html>
 	<html lang="en">
@@ -113,11 +125,7 @@ function getWebviewContent(defaultModel: string): string {
 		<h2>AI Model Chat VS Code Extension</h2>
 		<textarea id="prompt" rows="3" placeholder="How can I help?"></textarea><br />
 		<select id="model-dropdown" style="width: 200px;">
-			<option value="${defaultModel}"> Default(${defaultModel})</option>
-			<option value="deepseek-r1:latest">DeepSeek R1</option>
-			<option value="deepscaler">DeepScaler</option>
-			<option value="phi4">Microsoft phi4</option>
-			<option value="llama3.1">Llama 3</option>
+			${modelOptions}
     	</select>
 	 	<button id="askBtn">Ask</button>
 		<div id="response"></div>
@@ -147,6 +155,23 @@ function getWebviewContent(defaultModel: string): string {
 		</script>
 	</body>
 	`;
+}
+
+
+function buildModelOptions(appConfigJson: AppConfig ) {
+	const defaultModel: string = appConfigJson.defaultModel;
+	const models = appConfigJson.models;
+	let opts: string[] = [];
+	for(let i: number = 0; i < models.length; i++) {
+		let model: Model = models[i];
+		if ( defaultModel !== model.value ) {
+			opts.push(`<option value="${model.value}">${model.label}</option>`);
+		} else {
+			opts.unshift(`<option value="${model.value}">${model.label}(default))</option>`);
+		}	
+	}
+	const dropdownOptions: string = opts.join('\n');
+	return dropdownOptions;
 }
 
 // This method is called when your extension is deactivated
