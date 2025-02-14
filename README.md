@@ -8,6 +8,4 @@ Ollama - https://ollama.com
 
 it is recommended that you pull the manifest for the model(s) you intend to use by running ollama before using this extension or the first repsonse may take quite a while or throw an error:
 
-```ollama run deepseek-r1```
-
-![Screenshot](src/assets/why.png "Screenshot of Extension")
+```ollama pull deepscaler```
