@@ -4,7 +4,6 @@ import * as vscode from 'vscode';
 import ollama from 'ollama';
 import appConfigJson from '../appconfig.json';
 
-
 interface Model {
     label: string;
     value: string;
@@ -23,43 +22,41 @@ export function activate(context: vscode.ExtensionContext) {
 	// This line of code will only be executed once when your extension is activated
 	const defaultModel: string = appConfigJson.defaultModel;
 	console.log(`default model is set to: ${defaultModel}`);
-	
+
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
 	const disposable = vscode.commands.registerCommand('deepseek-code.start', () => {
-		const panel = vscode.window.createWebviewPanel(
-			'deepChat',
-			'AI Chatbot',
-			vscode.ViewColumn.One,
-			{enableScripts:true}
-		);
-
-		panel.webview.html = getWebviewContent(appConfigJson);
-		panel.webview.onDidReceiveMessage(async (message:any) => {
-			if (message.command = 'chat') {
-				const userPrompt = message.text;
-				const model = message.modelToUse;
-				let responseText = '';
-				try {
-					const streamResponse = await ollama.chat({
-						model: model,
-						messages: [{role: 'user', content: userPrompt}],
-						stream: true
-				});
-				for await (const part of streamResponse) {
-					responseText += part.message.content;
-					panel.webview.postMessage({
-						command: 'chatResponse', 
-						text: responseText
+		buildWebPanel(appConfigJson).then((panel) => {
+			panel.webview.onDidReceiveMessage(async (message:any) => {
+				if (message.command = 'chat') {
+					const userPrompt = message.text;
+					const model = message.modelToUse;
+					let responseText = '';
+					try {
+						const streamResponse = await ollama.chat({
+							model: model,
+							messages: [{role: 'user', content: userPrompt}],
+							stream: true
 					});
+					for await (const part of streamResponse) {
+						responseText += part.message.content;
+						panel.webview.postMessage({
+							command: 'chatResponse', 
+							text: responseText
+						});
+					}
+					} catch (err) {
+						panel.webview.postMessage({command: 'chatResponse', text: `Error: $(String(err))`});
+					}
 				}
-				} catch (err) {
-					panel.webview.postMessage({command: 'chatResponse', text: `Error: $(String(err))`});
-				}
-			}
+			});
 		});
 	});
+
+
+
+
 
 	context.subscriptions.push(disposable);
 }
@@ -164,15 +161,42 @@ function buildModelOptions(appConfigJson: AppConfig ) {
 	let opts: string[] = [];
 	for(let i: number = 0; i < models.length; i++) {
 		let model: Model = models[i];
-		if ( defaultModel !== model.value ) {
-			opts.push(`<option value="${model.value}">${model.label}</option>`);
-		} else {
+		if ( defaultModel === model.value ) {
 			opts.unshift(`<option value="${model.value}">${model.label}(default))</option>`);
-		}	
+			continue;
+		}
+		opts.push(`<option value="${model.value}">${model.label}</option>`);
 	}
 	const dropdownOptions: string = opts.join('\n');
 	return dropdownOptions;
 }
+
+async function buildWebPanel(appConfigJson: AppConfig) {
+	const panel: vscode.WebviewPanel = vscode.window.createWebviewPanel(
+		'deepChat',
+		'AI Chatbot',
+		vscode.ViewColumn.One,
+		{enableScripts:true}
+	);
+	let modelList: Model[] = [];
+	try {
+	  const models = await ollama.list();
+	  for (let i: number = 0; i < models.models.length; i++) {
+		const model = models.models[i];
+		const modelToAdd = {"label": model.name, "value": model.model };
+			modelList.push(modelToAdd);
+	  }
+	  const newConfig: AppConfig = {
+		"defaultModel": appConfigJson.defaultModel,
+		"models": modelList
+	  };
+	  panel.webview.html = getWebviewContent(newConfig);
+	} catch (error: any) {
+	  console.error('Error listing models:', error.message);
+	  panel.webview.html = getWebviewContent(appConfigJson);
+	}
+	return panel;
+  }
 
 // This method is called when your extension is deactivated
 export function deactivate() {}

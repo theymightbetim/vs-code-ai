@@ -1,7 +1,7 @@
 {
   "name": "deepseek-code",
   "displayName": "deepseek-code",
-  "description": "deepseek AI Chatbox extension for vsCode running locally with ollama",
+  "description": "deepseek AI Chatbot extension for vsCode running locally with ollama",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.97.0"
