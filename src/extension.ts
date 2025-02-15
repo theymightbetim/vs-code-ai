@@ -59,6 +59,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 
 	context.subscriptions.push(disposable);
+	return context;
 }
 
 function getWebviewContent(appConfigJson: AppConfig): string {
