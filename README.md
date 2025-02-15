@@ -1,6 +1,6 @@
 ## Features
 
-Adds a command to vsCode to open a chat dialog with DeepSeek r1 running locally with ollama
+Adds a command to vsCode to open a chat dialog with local AI Models using Ollama and the Ollama javascript library
 
 ## Requirements
 
