@@ -8,10 +8,10 @@ Ollama - https://ollama.com/download
 
 ## Notes
 
-Recommended you pull the model you intend to use before running the extension:
+Models you have already pulled with Ollama will be displayed by automatically in the model dropdown. If you have no models installed only DeepSeek-r1 will appear, you can add new models by running: 
 
 ```bash
-    ollama pull deepscaler
+    ollama pull <model>
 ```
 
 ## Configuration
@@ -20,14 +20,6 @@ Recommended you pull the model you intend to use before running the extension:
 
 defaultModel is the model that is selected by default on startup. you can change this to any model in the Ollama library
 
-Any model ollama supports can be added to the models array in appconfig.json:
-```json
-        models: [
-            { 
-            "label": "Llama 3.1", // can be whatever you want to call the model
-            "value": "llama3.1" // must be the model name as it appears in the Ollama library: 
-            }
-        ]
 ```
 
 
