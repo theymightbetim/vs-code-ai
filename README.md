@@ -20,8 +20,6 @@ Models you have already pulled with Ollama will be displayed by automatically in
 
 defaultModel is the model that is selected by default on startup. you can change this to any model in the Ollama library
 
-```
-
 
 ## Resources:
 
