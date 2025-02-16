@@ -5,12 +5,12 @@ import ollama from 'ollama';
 import appConfigJson from '../appconfig.json';
 
 
-interface Model {
+export interface Model {
     label: string;
     value: string;
 };
 
-type AppConfig = {
+export type AppConfig = {
     defaultModel: string;
     models: Model[];
 };
