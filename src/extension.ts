@@ -4,12 +4,13 @@ import * as vscode from 'vscode';
 import ollama from 'ollama';
 import appConfigJson from '../appconfig.json';
 
-interface Model {
+
+export interface Model {
     label: string;
     value: string;
 };
 
-type AppConfig = {
+export type AppConfig = {
     defaultModel: string;
     models: Model[];
 };
@@ -59,6 +60,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 
 	context.subscriptions.push(disposable);
+	return context;
 }
 
 function getWebviewContent(appConfigJson: AppConfig): string {
@@ -155,14 +157,14 @@ function getWebviewContent(appConfigJson: AppConfig): string {
 }
 
 
-function buildModelOptions(appConfigJson: AppConfig ) {
+export function buildModelOptions(appConfigJson: AppConfig ) {
 	const defaultModel: string = appConfigJson.defaultModel;
 	const models = appConfigJson.models;
 	let opts: string[] = [];
 	for(let i: number = 0; i < models.length; i++) {
 		let model: Model = models[i];
 		if ( defaultModel === model.value ) {
-			opts.unshift(`<option value="${model.value}">${model.label}(default))</option>`);
+			opts.unshift(`<option value="${model.value}">${model.label}(default)</option>`);
 			continue;
 		}
 		opts.push(`<option value="${model.value}">${model.label}</option>`);
@@ -171,7 +173,7 @@ function buildModelOptions(appConfigJson: AppConfig ) {
 	return dropdownOptions;
 }
 
-async function buildWebPanel(appConfigJson: AppConfig) {
+export async function buildWebPanel(appConfigJson: AppConfig) {
 	const panel: vscode.WebviewPanel = vscode.window.createWebviewPanel(
 		'deepChat',
 		'AI Chatbot',
